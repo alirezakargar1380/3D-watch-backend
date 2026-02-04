@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, RawBody, Req, RawBodyRequest } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { CreateStripeDto } from './dto/create-stripe.dto';
 import { UpdateStripeDto } from './dto/update-stripe.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 
@@ -120,23 +120,65 @@ export class StripeController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.stripeService.findAll();
+  @Post('/checkout')
+  async createSession(@Res() res: Response) {
+    try {
+      const session = await this.stripe.checkout.sessions.create({
+
+        payment_method_types: ['card'],
+        mode: 'payment',
+
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: 'Test Order',
+              },
+              unit_amount: 1000, // amount, 
+            },
+            quantity: 1,
+          }
+        ],
+
+        // is only for display
+        success_url: 'http://localhost:3000/api/stripe/payment-success?session_id={CHECKOUT_SESSION_ID}',
+        // is only for display
+        cancel_url: 'http://localhost:3000/api/stripe/payment-cancel',
+
+      })
+
+      res.status(HttpStatus.ACCEPTED).send({
+        url: session.url
+      })
+    } catch (e) {
+
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stripeService.findOne(+id);
-  }
+  /**
+   *    TODO:
+   *      - implement webhook API from stripe CLI
+   */
+  @Post('webhook')
+  handleWebhook(@Req() req: RawBodyRequest<Request>, @Res() res: Response) {
+    let token: string = this.config.get<string>('STRIPE_TOKEN') || '';
+    const sig = req.headers['stripe-signature'];
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStripeDto: UpdateStripeDto) {
-    return this.stripeService.update(+id, updateStripeDto);
-  }
+    if (!req.rawBody || !sig) return res.status(HttpStatus.BAD_REQUEST).send('not acceptable')
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.stripeService.remove(+id);
+    const event = this.stripe.webhooks.constructEvent(
+      req.rawBody,
+      sig,
+      token,
+    );
+
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+
+      // ✅ mark order as paid in DB
+    }
+
+    
   }
 }
