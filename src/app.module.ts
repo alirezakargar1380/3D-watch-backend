@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { TabsModule } from './tabs/tabs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrdersModule } from './orders/orders.module';
+import { ColorsModule } from './colors/colors.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { OrdersModule } from './orders/orders.module';
     StripeModule,
     ProductsModule,
     TabsModule,
-    OrdersModule
+    OrdersModule,
+    ColorsModule
   ],
   controllers: [AppController],
   providers: [AppService],

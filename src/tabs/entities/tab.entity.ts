@@ -1,6 +1,7 @@
 
+import { Colors } from 'src/colors/entities/color.entity';
 import { Products } from 'src/products/entities/product.entity';
-import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Tabs {
@@ -11,6 +12,11 @@ export class Tabs {
     @ManyToOne(() => Products)
     @JoinColumn()
     product: Products;
+
+    @OneToMany(() => Colors, (color) => color.tab, {
+        cascade: true
+    })
+    colors: Colors[];
 
     @Column()
     tab_name: string;

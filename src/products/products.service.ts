@@ -15,13 +15,13 @@ export class ProductsService {
   }
 
   findAll() {
-    return `This action returns all products`;
+    return this.productRepository.find();
   }
 
   findOne(id: number) {
     return this.productRepository.findOne({
       where: { id },
-      relations: { tabs: true }
+      relations: { tabs: { colors: true } }
     });
   }
 
