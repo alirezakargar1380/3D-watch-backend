@@ -21,6 +21,9 @@ export class Tabs {
     @Column()
     tab_name: string;
 
+    @Column({ default: '' })
+    default_color: string;
+
     @Column()
     key: string;
 

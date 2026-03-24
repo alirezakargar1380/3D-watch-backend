@@ -1,8 +1,9 @@
+import { Products } from 'src/products/entities/product.entity';
 import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
-@Entity() 
+@Entity()
 export class Orders {
-    
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,7 +12,11 @@ export class Orders {
 
     @Column()
     clock: string;
-        
+
+    @ManyToOne(() => Products)
+    @JoinColumn()
+    product: Products;
+
     @CreateDateColumn()
     createdAt: Date
 
