@@ -8,6 +8,8 @@ import { TabsModule } from './tabs/tabs.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrdersModule } from './orders/orders.module';
 import { ColorsModule } from './colors/colors.module';
+import { CustomersModule } from './customers/customers.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { ColorsModule } from './colors/colors.module';
     ProductsModule,
     TabsModule,
     OrdersModule,
-    ColorsModule
+    ColorsModule,
+    CustomersModule,
+    AuthenticationModule
   ],
   controllers: [AppController],
   providers: [AppService],
