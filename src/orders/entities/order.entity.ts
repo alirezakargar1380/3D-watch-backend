@@ -1,3 +1,4 @@
+import { Customers } from 'src/customers/entities/customer.entity';
 import { Products } from 'src/products/entities/product.entity';
 import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
@@ -12,6 +13,10 @@ export class Orders {
 
     @Column()
     clock: string;
+
+    @ManyToOne(() => Customers)
+    @JoinColumn()
+    owner: Customers;
 
     @ManyToOne(() => Products)
     @JoinColumn()

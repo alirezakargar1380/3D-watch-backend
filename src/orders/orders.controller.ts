@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { Response } from 'express';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: any) {
-    return this.ordersService.create(createOrderDto);
+  async create(@Body() createOrderDto: any, @Res() res: Response) {
+    try {
+      console.log(res.locals.user.id)
+      await this.ordersService.create({
+        owner: {
+        id: res.locals.user.id
+      },
+        ...createOrderDto
+      });
+
+      res.status(HttpStatus.ACCEPTED).send()
+    } catch(e) {
+console.log(e)
+    }
   }
 
   @Get()
