@@ -15,13 +15,22 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.productRepository.find();
+    return this.productRepository.find({
+      relations: {
+        images: true
+      }
+    });
   }
 
   findOne(id: number) {
     return this.productRepository.findOne({
       where: { id },
-      relations: { tabs: { colors: true } }
+      relations: {
+        images: true,
+        tabs: {
+          colors: true
+        }
+      }
     });
   }
 

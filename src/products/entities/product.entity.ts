@@ -1,4 +1,5 @@
 
+import { Images } from 'src/images/entities/image.entity';
 import { Tabs } from 'src/tabs/entities/tab.entity';
 import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 
@@ -18,6 +19,11 @@ export class Products {
         cascade: true
     })
     tabs: Tabs[];
+
+    @OneToMany(() => Images, img => img.product, {
+        onDelete: 'SET NULL'
+    })
+    images: Images[]
     
     @CreateDateColumn()
     createdAt: Date

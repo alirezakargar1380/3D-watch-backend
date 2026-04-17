@@ -10,6 +10,7 @@ import { OrdersModule } from './orders/orders.module';
 import { ColorsModule } from './colors/colors.module';
 import { CustomersModule } from './customers/customers.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
     OrdersModule,
     ColorsModule,
     CustomersModule,
-    AuthenticationModule
+    AuthenticationModule,
+    ImagesModule
   ],
   controllers: [AppController],
   providers: [AppService],
