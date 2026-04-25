@@ -18,6 +18,9 @@ export class ProductsService {
     return this.productRepository.find({
       relations: {
         images: true
+      },
+      order: {
+        id: 'DESC'
       }
     });
   }
