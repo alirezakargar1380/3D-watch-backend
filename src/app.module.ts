@@ -11,6 +11,7 @@ import { ColorsModule } from './colors/colors.module';
 import { CustomersModule } from './customers/customers.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ImagesModule } from './images/images.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { ImagesModule } from './images/images.module';
     ColorsModule,
     CustomersModule,
     AuthenticationModule,
-    ImagesModule
+    ImagesModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService],
