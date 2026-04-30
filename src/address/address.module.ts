@@ -1,17 +1,17 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { OrdersService } from './orders.service';
-import { OrdersController } from './orders.controller';
+import { AddressService } from './address.service';
+import { AddressController } from './address.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Orders } from './entities/order.entity';
-import { customerLoginChecker } from 'src/shared/middlewares/customerLoginChecker.middleware copy';
+import { Address } from './entities/address.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { CartService } from 'src/cart/cart.service';
-import { Cart } from 'src/cart/entities/cart.entity';
+import { customerLoginChecker } from 'src/shared/middlewares/customerLoginChecker.middleware copy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Orders, Cart]),
+    TypeOrmModule.forFeature([
+      Address
+    ]),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
@@ -22,14 +22,22 @@ import { Cart } from 'src/cart/entities/cart.entity';
       }),
     }),
   ],
-  controllers: [OrdersController],
-  providers: [OrdersService, CartService],
+  controllers: [AddressController],
+  providers: [AddressService],
 })
-export class OrdersModule {
+export class AddressModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(customerLoginChecker).forRoutes({
-      path: 'orders',
+      path: 'address',
       method: RequestMethod.POST
+    })
+    consumer.apply(customerLoginChecker).forRoutes({
+      path: 'address',
+      method: RequestMethod.GET
+    })
+    consumer.apply(customerLoginChecker).forRoutes({
+      path: 'address/:id/primary',
+      method: RequestMethod.PATCH
     })
   }
 }

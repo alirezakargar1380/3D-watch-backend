@@ -17,9 +17,25 @@ export class CartService {
   findAll() {
     return this.cartResource.find({
       relations: {
-        owner: true
+        owner: true,
+        product: {
+          images: true
+        }
       }
     });
+  }
+
+  async addItemsToOrders(order_id: number, user_id: number) {
+    let cartItems: any = await this.cartResource.find({ where: { owner: { id: user_id } } });
+    cartItems = cartItems.map((item) => {
+      return {
+        id: item.id,
+        isOrderItem: true,
+        order: { id: order_id }
+      }
+    })
+
+    return this.cartResource.save(cartItems);
   }
 
   findOne(id: number) {
@@ -31,6 +47,6 @@ export class CartService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} cart`;
+    return this.cartResource.softDelete({ id });
   }
 }

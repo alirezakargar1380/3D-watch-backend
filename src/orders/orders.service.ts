@@ -1,21 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Orders } from './entities/order.entity';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class OrdersService {
+
   constructor(
-    @InjectRepository(Orders) private ordersResource: Repository<Orders>
-  ){}
-  create(createOrderDto: CreateOrderDto) {
-    return this.ordersResource.save(createOrderDto);
+    @InjectRepository(Orders) private orderRepository: Repository<Orders>,
+  ) { }
+
+  generateOrderNumber = () => Math.floor(Math.random() * 1000000);
+
+  create(createOrderDto: any): Promise<Orders> {
+    return this.orderRepository.save(createOrderDto);
   }
 
   findAll() {
-    return this.ordersResource.find();
+    return this.orderRepository.find({
+      relations: {
+        products: true,
+        address: true,
+        owner: true,
+      },
+      withDeleted: true
+    });
   }
 
   findOne(id: number) {

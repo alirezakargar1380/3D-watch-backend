@@ -1,3 +1,5 @@
+import { Address } from 'src/address/entities/address.entity';
+import { Cart } from 'src/cart/entities/cart.entity';
 import { Customers } from 'src/customers/entities/customer.entity';
 import { Products } from 'src/products/entities/product.entity';
 import { Entity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
@@ -7,20 +9,22 @@ export class Orders {
 
     @PrimaryGeneratedColumn()
     id: number;
-
+    
     @Column()
-    colors: string;
-
-    @Column()
-    clock: string;
+    order_number: string;
 
     @ManyToOne(() => Customers)
     @JoinColumn()
     owner: Customers;
-
-    @ManyToOne(() => Products)
+    
+    @ManyToOne(() => Address, {
+        onDelete: 'SET NULL'
+    })
     @JoinColumn()
-    product: Products;
+    address: Address;
+
+    @OneToMany(() => Cart, (cart) => cart.order)
+    products: Cart[];
 
     @CreateDateColumn()
     createdAt: Date

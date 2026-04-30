@@ -12,6 +12,7 @@ import { CustomersModule } from './customers/customers.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ImagesModule } from './images/images.module';
 import { CartModule } from './cart/cart.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { CartModule } from './cart/cart.module';
     CustomersModule,
     AuthenticationModule,
     ImagesModule,
-    CartModule
+    CartModule,
+    AddressModule
   ],
   controllers: [AppController],
   providers: [AppService],
