@@ -10,6 +10,18 @@ export class Colors {
     @Column({ default: '' })
     code: string;
 
+    @Column({ default: '' })
+    material_name: string;
+
+    @Column({ default: '' })
+    roughness: string;
+
+    @Column({ default: '' })
+    objects: string;
+
+    @Column({ default: false })
+    all: boolean;
+
     @ManyToOne(() => Tabs)
     @JoinColumn()
     tab: Tabs;

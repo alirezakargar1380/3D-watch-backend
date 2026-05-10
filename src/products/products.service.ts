@@ -17,7 +17,10 @@ export class ProductsService {
   findAll() {
     return this.productRepository.find({
       relations: {
-        images: true
+        images: true,
+        tabs: {
+          colors: true
+        }
       },
       order: {
         id: 'DESC'
@@ -45,6 +48,6 @@ export class ProductsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.productRepository.softDelete({ id });
   }
 }

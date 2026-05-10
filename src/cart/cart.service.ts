@@ -21,7 +21,8 @@ export class CartService {
         product: {
           images: true
         }
-      }
+      },
+      withDeleted: true
     });
   }
 
