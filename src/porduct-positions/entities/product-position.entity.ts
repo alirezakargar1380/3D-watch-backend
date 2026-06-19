@@ -8,14 +8,16 @@ export class ProductPositions {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Products)
+    @ManyToOne(() => Products, {
+        orphanedRowAction: 'delete'
+    })
     @JoinColumn()
     product: Products;
 
     @ManyToOne(() => Positions, (color) => color.id, {
-        onDelete: 'SET NULL',
+        // onDelete: 'SET NULL',
         // orphanedRowAction: 'delete',
-        nullable: true
+        // nullable: true
     })
     @JoinColumn()
     position: Positions;
