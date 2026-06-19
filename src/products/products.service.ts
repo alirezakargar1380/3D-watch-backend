@@ -17,6 +17,7 @@ export class ProductsService {
   findAll() {
     return this.productRepository.find({
       relations: {
+        positions: true,
         images: true,
         tabs: {
           colors: true
@@ -32,6 +33,9 @@ export class ProductsService {
     return this.productRepository.findOne({
       where: { id },
       relations: {
+        positions: {
+          position: true
+        },
         images: true,
         tabs: {
           colors: true

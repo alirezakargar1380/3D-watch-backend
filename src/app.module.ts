@@ -13,6 +13,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { ImagesModule } from './images/images.module';
 import { CartModule } from './cart/cart.module';
 import { AddressModule } from './address/address.module';
+import { PositionsModule } from './positions/positions.module';
+import { PorductPositionsModule } from './porduct-positions/porduct-positions.module';
 
 @Module({
   imports: [
@@ -43,7 +45,9 @@ import { AddressModule } from './address/address.module';
     AuthenticationModule,
     ImagesModule,
     CartModule,
-    AddressModule
+    AddressModule,
+    PositionsModule,
+    PorductPositionsModule
   ],
   controllers: [AppController],
   providers: [AppService],
