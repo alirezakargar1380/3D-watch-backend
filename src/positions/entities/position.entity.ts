@@ -15,12 +15,6 @@ export class Positions {
     })
     img: string;
 
-    @Column()
-    x: number;
-
-    @Column()
-    y: number;
-
     @CreateDateColumn()
     createdAt: Date
 
