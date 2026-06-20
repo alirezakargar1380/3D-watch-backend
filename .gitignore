@@ -58,3 +58,4 @@ package-lock.json
 yarn.lock
 .env
 product-images/*
+public/*

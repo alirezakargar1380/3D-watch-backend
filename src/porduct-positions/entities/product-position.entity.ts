@@ -22,6 +22,12 @@ export class ProductPositions {
     @JoinColumn()
     position: Positions;
 
+    @Column()
+    x: string;
+
+    @Column()
+    y: string;
+
     @CreateDateColumn()
     createdAt: Date
 
